@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Auction</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Online Auction</h1>
+        
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert error"><%= error %></div>
+        <% } %>
+        
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div class="alert success"><%= success %></div>
+        <% } %>
+
+        <div class="auction-container">
+            <div class="bid-form">
+                <h2>Place Your Bid</h2>
+                <form action="/bid" method="POST">
+                    <div class="form-group">
+                        <label for="itemId">Item ID:</label>
+                        <input type="text" id="itemId" name="itemId" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bidderName">Your Name:</label>
+                        <input type="text" id="bidderName" name="bidderName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bidAmount">Bid Amount:</label>
+                        <input type="number" id="bidAmount" name="bidAmount" required step="0.01" min="0">
+                    </div>
+                    
+                    <button type="submit" class="btn">Submit Bid</button>
+                </form>
+            </div>
+            
+            <div class="items-list">
+                <h2>Current Auction Items</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item ID</th>
+                            <th>Item Name</th>
+                            <th>Description</th>
+                            <th>Starting Price</th>
+                            <th>Current Bid</th>
+                            <th>Current Bidder</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% items.forEach(item => { %>
+                            <tr>
+                                <td><%= item.item_id %></td>
+                                <td><%= item.item_name %></td>
+                                <td><%= item.item_description %></td>
+                                <td>$<%= item.starting_price.toFixed(2) %></td>
+                                <td>$<%= item.highest_bid.toFixed(2) %></td>
+                                <td><%= item.bidder_name || 'None' %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
